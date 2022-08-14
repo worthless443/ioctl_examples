@@ -12,7 +12,7 @@ int main() {
 	//r_info.bit_count= BUFSIZE;
 	//r_info.byte_count= BUFSIZE;
 	
-	int  fd = 	open("/dev/tty0", O_RDONLY), test, ent=0xffffff & 0xf;
+	int  fd = 	open("/dev/tty0", O_RDONLY), test, ent=0xffffff ;
 	int  fd_rnd = 	open("/dev/urandom", O_RDONLY) ;
 	int ret  = ioctl(fd, _IOR(_IOC_TYPE(TCGETS), _IOC_NR(TCGETS), argp) , &argp);
 	int ret_rnd  = ioctl(fd_rnd, RNDADDENTROPY | RNDADDENTROPY, &r_info);
