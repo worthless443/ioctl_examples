@@ -6,6 +6,7 @@
 #include<unistd.h>
 #include<linux/random.h>
 
+#include<ioctl_examples.h>
 // TODO organize device file ioctl with their own functions
 
 struct rand_pool_info_der {
@@ -14,7 +15,7 @@ struct rand_pool_info_der {
 };
 
 int mk_struct_rand_pool(int size, void *r_info, int mask) { 
-	if(size & mask!=0) return -1;
+	if((size & mask)!=0) return -1;
 	struct rand_pool_info_der *info = (struct rand_pool_info_der*)r_info;
 	info->bit_size = size*8;
 	info->byte_size = size;
@@ -34,7 +35,7 @@ int main() {
 	
 	int  fd = 	open("/dev/tty0", O_RDONLY), test, ent=0xffffff ;
 	int  fd_rnd = 	open("/dev/urandom", O_RDONLY) ;
-	int ret  = ioctl(fd, _IOR(_IOC_TYPE(TCGETS), _IOC_NR(TCGETS), argp) , &argp);
+	int ret  = ioctl(fd, IOMASK(TCGETS) , &argp);
 	int ret_rnd  = ioctl(fd_rnd, RNDADDENTROPY | RNDADDENTROPY, &r_info);
 	int ret_rnd1  = ioctl(fd_rnd,RNDGETENTCNT, &test);
 	int ret_rnd2  = ioctl(fd_rnd,RNDADDTOENTCNT, &ent);
